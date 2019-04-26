@@ -7,6 +7,7 @@ var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var passport = require('passport');
 var authenticate = require('./authenticate');
+var config = require('./config');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -32,6 +33,32 @@ app.set('view engine', 'jade');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+// function auth (req, res, next) {
+//   console.log(req.headers);
+//   var authHeader = req.headers.authorization;
+//   if (!authHeader) {
+//       var err = new Error('You are not authenticated!');
+//       res.setHeader('WWW-Authenticate', 'Basic');
+//       err.status = 401;
+//       next(err);
+//       return;
+//   }
+// 
+//   var auth = new Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
+//   var user = auth[0];
+//   var pass = auth[1];
+//   if (user == 'admin' && pass == 'password') {
+//       next(); // authorized
+//   } else {
+//       var err = new Error('You are not authenticated!');
+//       res.setHeader('WWW-Authenticate', 'Basic');      
+//       err.status = 401;
+//       next(err);
+//   }
+// }
+
+
 // function auth (req, res, next) {
 //     console.log(req.session);
 // 
@@ -81,7 +108,8 @@ const mongoose = require('mongoose');
 
 const Dishes = require('./models/dishes');
 
-const url = 'mongodb://localhost:27017/conFusion';
+// const url = 'mongodb://localhost:27017/conFusion';
+const url = config.mongoUrl;
 const connect = mongoose.connect(url);
 
 connect.then((db) => {
