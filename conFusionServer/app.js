@@ -18,6 +18,7 @@ var leaderRouter = require('./routes/leaderRouter');
 var app = express();
 
 // app.use(cookieParser('12345-67890-09876-54321'));
+app.use(passport.initialize());
 app.use(session({
   name: 'session-id',
   secret: '12345-67890-09876-54321',
@@ -29,6 +30,8 @@ app.use(session({
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+
 
 
 app.use('/', indexRouter);
@@ -78,20 +81,22 @@ app.use('/users', usersRouter);
 //     }
 //   }
 // }
-function auth (req, res, next) {
-    console.log(req.user);
 
-    if (!req.user) {
-      var err = new Error('You are not authenticated!');
-      err.status = 403;
-      next(err);
-    }
-    else {
-          next();
-    }
-}
 
-app.use(auth);
+// function auth (req, res, next) {
+//     console.log(req.user);
+// 
+//     if (!req.user) {
+//       var err = new Error('You are not authenticated!a');
+//       err.status = 403;
+//       next(err);
+//     }
+//     else {
+//           next();
+//     }
+// }
+// 
+// app.use(auth);
 
 app.use(logger('dev'));
 app.use(express.json());
